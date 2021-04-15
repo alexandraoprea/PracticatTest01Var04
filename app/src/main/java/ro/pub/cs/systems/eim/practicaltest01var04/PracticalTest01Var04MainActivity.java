@@ -7,16 +7,29 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.content.IntentFilter;
 import android.widget.TextView;
 import android.widget.CheckBox;
 import android.content.Intent;
 import android.widget.Toast;
-
+import android.content.BroadcastReceiver;
+import android.util.Log;
+import android.content.Context;
 
 public class PracticalTest01Var04MainActivity extends AppCompatActivity {
     private EditText nameTextEdit;
     private EditText groupTextEdit;
     private Button navigateToSecondaryActivityButton;
+
+    private MessageBroadcastReceiver messageBroadcastReceiver = new MessageBroadcastReceiver();
+    private IntentFilter intentFilter = new IntentFilter();
+
+    private class MessageBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(Constants.BROADCAST_RECEIVER_TAG, intent.getStringExtra(Constants.BROADCAST_RECEIVER_EXTRA));
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +59,6 @@ public class PracticalTest01Var04MainActivity extends AppCompatActivity {
             CheckBox groupCheckBox = (CheckBox) findViewById(R.id.check_group_checkbox);
             greetingTextView.setAlpha(1);
 
-
             switch (view.getId()) {
                 case R.id.display_button:
                     if (nameCheckBox.isChecked() && groupCheckBox.isChecked()) {
@@ -66,6 +78,7 @@ public class PracticalTest01Var04MainActivity extends AppCompatActivity {
                     intent.putExtra(Constants.USER_NAME, userName);
                     intent.putExtra(Constants.GROUP_NAME, groupName);
                     startActivityForResult(intent, Constants.SECONDARY_ACTIVITY_REQUEST_CODE);
+                    startService(intent);
                     break;
             }
         }
@@ -84,5 +97,30 @@ public class PracticalTest01Var04MainActivity extends AppCompatActivity {
         if (requestCode == Constants.SECONDARY_ACTIVITY_REQUEST_CODE) {
             Toast.makeText(this, "The activity returned with result " + resultCode, Toast.LENGTH_LONG).show();
         }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(messageBroadcastReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(messageBroadcastReceiver);
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Intent intent = new Intent(this, PracticalTest01Var04Service.class);
+        stopService(intent);
+        super.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+//        savedInstanceState.putString(Constants.USER_NAME, user.getText().toString());
+//        savedInstanceState.putString(Constants.GROUP_NAME, rightEditText.getText().toString());
     }
 }

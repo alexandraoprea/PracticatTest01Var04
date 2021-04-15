@@ -17,7 +17,7 @@ public class ProcessingThread extends Thread {
     private String name;
     private String  group;
 
-    public ProcessingThread(Context context, int firstNumber, int secondNumber) {
+    public ProcessingThread(Context context, int name, int group) {
         this.context = context;
     }
 
@@ -41,7 +41,7 @@ public class ProcessingThread extends Thread {
 
     private void sleep() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(5000);
         } catch (InterruptedException interruptedException) {
             interruptedException.printStackTrace();
         }
