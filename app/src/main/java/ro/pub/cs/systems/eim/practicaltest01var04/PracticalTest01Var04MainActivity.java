@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.CheckBox;
 import android.content.Intent;
+import android.widget.Toast;
 
 
 public class PracticalTest01Var04MainActivity extends AppCompatActivity {
@@ -75,5 +76,13 @@ public class PracticalTest01Var04MainActivity extends AppCompatActivity {
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         nameTextEdit.setText(savedInstanceState.getString("Perfect Student"));
         groupTextEdit.setText(savedInstanceState.getString("341C1"));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == Constants.SECONDARY_ACTIVITY_REQUEST_CODE) {
+            Toast.makeText(this, "The activity returned with result " + resultCode, Toast.LENGTH_LONG).show();
+        }
     }
 }
