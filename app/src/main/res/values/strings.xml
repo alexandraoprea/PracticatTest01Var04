@@ -4,4 +4,6 @@
     <string name="name">Perfect Student</string>
     <string name="group">341C1</string>
     <string name="display_content">DISPLAY INFORMATION</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 </resources>
