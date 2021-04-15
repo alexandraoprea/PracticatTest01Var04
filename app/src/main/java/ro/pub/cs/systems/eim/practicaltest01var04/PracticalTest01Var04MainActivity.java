@@ -11,13 +11,19 @@ import android.widget.TextView;
 import android.widget.CheckBox;
 
 
+
 public class PracticalTest01Var04MainActivity extends AppCompatActivity {
+    private EditText nameTextEdit;
+    private EditText groupTextEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_practical_test01_var04_main);
 
+
+        nameTextEdit = (EditText)findViewById(R.id.user_name_edit_text);
+        groupTextEdit = (EditText)findViewById(R.id.group_edit_text);
         Button displayInfo = (Button) findViewById(R.id.display_button);
         displayInfo.setOnClickListener(buttonClickListener);
     }
@@ -48,5 +54,9 @@ public class PracticalTest01Var04MainActivity extends AppCompatActivity {
         }
 
     }
-
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        nameTextEdit.setText(savedInstanceState.getString("Perfect Student"));
+        groupTextEdit.setText(savedInstanceState.getString("341C1"));
+    }
 }
